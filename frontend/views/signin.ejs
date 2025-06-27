@@ -70,8 +70,22 @@
                 </label>
                 <a href="/forgot-password" class="text-[#FF385C] text-sm hover:underline">Forgot password?</a>
             </div>
-
-            <button type="submit" class="w-full bg-[#FF385C] text-white p-3 rounded-full font-medium">Sign In</button>
+            <div class="mb-6">
+                <!-- Loader (initially hidden) -->
+                <div id="signinLoader" class="hidden flex justify-center items-center">
+                  <div class="relative">
+                    <div class="w-6 h-6 border-2 border-t-[#FF385C] border-[#ff385c33] rounded-full animate-spin"></div>
+                    <svg class="absolute top-0 left-0 w-6 h-6" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M30 70h40v-30l-20-20-20 20z" fill="#FF385C"/>
+                      <circle cx="50" cy="50" r="4" fill="white"/>
+                      <path d="M50 50l-5 8" stroke="white" stroke-width="2"/>
+                    </svg>
+                  </div>
+                </div>
+              
+                <!-- Original Signup Button -->
+                <button id="signinBtn" type="submit" class="w-full bg-[#FF385C] text-white p-3 rounded-full font-medium">Sign In</button>
+            </div> 
 
             <div class="my-6 text-center relative">
                 <p class="text-gray-600 relative z-10 bg-white px-4 inline-block">Or continue with</p>
@@ -103,7 +117,7 @@
         });
 
         // Form validation
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit',async function(e) {
             e.preventDefault();
             
             // Reset previous errors
@@ -140,6 +154,33 @@
                     }
                 }
                 return;
+            }
+            const signinBtn = document.getElementById('signinBtn');
+            const signinLoader = document.getElementById('signinLoader');
+            signinBtn.classList.add('hidden');
+            signinLoader.classList.remove('hidden');
+
+            try {
+                const res = await fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+                alert(result.message || 'Login successful!');
+                window.location.href = '/dashboard'; // Or home, or wherever
+                } else {
+                alert(result.message || 'Invalid credentials');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Something went wrong during sign in');
+            } finally {
+                signinBtn.classList.remove('hidden');
+                signinLoader.classList.add('hidden');
             }
 
             // Here you would typically send the data to your server
