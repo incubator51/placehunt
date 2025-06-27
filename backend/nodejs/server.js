@@ -1,10 +1,15 @@
 import express from 'express';
-import path from 'path';
-import {mkdir, readFile, writeFile} from 'fs/promises';
+import {configDotenv} from 'dotenv';
+import {resolve, dirname} from 'path';
+import {fileURLToPath} from 'url';
 import {signupAccountSchema, loginAccountSchema} from './schemas/accounts.js';
+import {pool} from './db/setup.js';
 
-const port = 8080;
 const app = express();
+const port = process.env.SERVER_PORT;
+const rootPassword = process.env.DB_PASSWORD;
+
+configDotenv({path: resolve(dirname(fileURLToPath(import.meta.url)), '../../shared/.env')});
 app.use(express.json());
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
@@ -14,33 +19,7 @@ app.use((err, req, res, next) => {
   return res.status(500).json({status: 'error', message: 'internal server error'});
 });
 
-const filepath = path.resolve('./db/accounts.json');
-const rootPassword = 'root';
-let accounts = [];
-
-(async function initializeData() {
-  try {
-    const data = await readFile(filepath, 'utf-8');
-    accounts = JSON.parse(data) ?? [];
-  } catch {
-    console.warn('accounts.json not found or is invalid, initializing new dataset');
-    accounts = [];
-
-    await mkdir(path.dirname(filepath), {recursive: true});
-    await writeFile(filepath, JSON.stringify(accounts, null, 2));
-  }
-})();
-
-async function saveAccounts(data) {
-  try {
-    const path = filepath;
-    await writeFile(path, JSON.stringify(data, null, 2));
-  } catch (err) {
-    console.error(`Failed to write to ${path}`, err);
-  }
-}
-
-app.get('/accounts', (req, res) => {
+app.get('/accounts', async (req, res) => {
   const password = req.query.password;
 
   if (password !== rootPassword) {
@@ -56,43 +35,64 @@ app.post('/signup', async (req, res) => {
   const newAccount = {username, email, phone, birth_date, password, created, last_seen};
 
   const {error, value: account} = signupAccountSchema.validate(newAccount);
-  const usernameExists = accounts.find((item) => item.username === account.username);
-  const phoneExists = accounts.find((item) => item.phone === account.phone);
-  const emailExists = accounts.find((item) => item.email === account.email);
 
   if (error) {
     return res.status(400).json({status: 'error', message: error.details[0].message});
   }
-  if (usernameExists) {
-    return res.status(400).json({status: 'error', message: 'username is already taken'});
-  }
-  if (phoneExists) {
-    return res.status(400).json({status: 'error', message: 'phone is already taken'});
-  }
-  if (emailExists) {
-    return res.status(400).json({status: 'error', message: 'email is already taken'});
-  }
 
-  accounts.push(account);
-  await saveAccounts(accounts);
-  return res.status(201).json({status: 'ok', message: 'account has been added successfully'});
+  try {
+    const checks = await pool.query(`SELECT username,phone,email FROM accounts WHERE username=$1 OR phone=$2 OR email=$3`, [account.username, account.phone, account.email]);
+    const duplicates = checks.rows;
+
+    if (duplicates.some((row) => row.username === account.username)) {
+      return res.status(400).json({status: 'error', message: 'username is already taken'});
+    }
+    if (duplicates.some((row) => row.phone === account.phone)) {
+      return res.status(400).json({status: 'error', message: 'phone is already taken'});
+    }
+    if (duplicates.some((row) => row.email === account.email)) {
+      return res.status(400).json({status: 'error', message: 'email is already taken'});
+    }
+
+    await pool.query(`INSERT INTO accounts (username,email,phone,birth_date,password,created,last_seen) VALUES ($1,$2,$3,$4,$5,$6,$7)`, [
+      username,
+      email,
+      phone,
+      birth_date,
+      password,
+      created,
+      last_seen,
+    ]);
+    return res.status(201).json({status: 'ok', message: 'account has been added successfully'});
+  } catch (err) {
+    console.error('signup failed :', err);
+    return res.status(500).json({status: 'error', message: 'database error'});
+  }
 });
 
-app.post('/login', (req, res) => {
+app.put('/login', async (req, res) => {
   const {username, email, password} = req.body;
   const last_seen = new Date().toISOString();
   const loginAccount = {username, email, password, last_seen};
-  const {error, account} = loginAccountSchema.validate(loginAccount);
+  const {error, value: account} = loginAccountSchema.validate(loginAccount);
 
   if (error) {
     return res.status(400).json({status: 'error', message: error.details[0].message});
   }
+  try {
+    const result = await pool.query(`SELECT * FROM accounts WHERE (username=$1 OR email=$2) AND password=$3`, [account.username, account.email, account.password]);
+    const accountExists = result.rows[0];
 
-  const accountExists = accounts.find((u) => u.username === account.username && u.password === account.password);
-  if (!accountExists) {
-    return res.status(401).json({status: 'error', message: 'invalid credentials'});
+    if (!accountExists) {
+      return res.status(401).json({status: 'error', message: 'invalid credentials'});
+    }
+
+    await pool.query(`UPDATE accounts SET last_seen=$1 WHERE id=$2`, [account.last_seen, accountExists.id]);
+    return res.status(200).json({status: 'ok', message: 'login was successful'});
+  } catch (err) {
+    console.error('Login failed:', err);
+    return res.status(500).json({status: 'error', message: 'database error'});
   }
-  return res.status(200).json();
 });
 
 app.listen(port, () => '');
