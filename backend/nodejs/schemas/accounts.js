@@ -22,3 +22,9 @@ export const loginAccountSchema = Joi.object({
   password: Joi.string().required(),
   last_seen: Joi.date().iso().max('now').required(),
 }).xor('username', 'email');
+
+export const deleteAccountSchema = Joi.object({
+  username: Joi.string().min(4).max(32),
+  email: Joi.string().email(),
+  password: Joi.string().required(),
+}).xor('username', 'email');
