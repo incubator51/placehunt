@@ -1,11 +1,13 @@
 import Joi from 'joi';
 
+export const getAccountsSchema = Joi.object({
+  password: Joi.string().min(8).max(64).pattern(/^\S+$/).required(),
+});
 export const signupAccountSchema = Joi.object({
-  username: Joi.string().min(4).max(32).required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(8).max(32).required(),
-  created: Joi.date().iso().max('now').required(),
-  last_seen: Joi.date().iso().max('now').required(),
+  username: Joi.string().min(4).max(32).pattern(/^\S+$/).required(),
+  gender: Joi.string().valid('male', 'female', 'non-binary').required(),
+  email: Joi.string().min(4).max(254).email().pattern(/^\S+$/).required(),
+  password: Joi.string().min(8).max(64).pattern(/^\S+$/).required(),
   phone: Joi.string()
     .pattern(/^(\+254|0)(1|7)[0-9]{8}$/)
     .required(),
@@ -17,14 +19,13 @@ export const signupAccountSchema = Joi.object({
 });
 
 export const loginAccountSchema = Joi.object({
-  username: Joi.string().min(4).max(32),
-  email: Joi.string().email(),
-  password: Joi.string().required(),
-  last_seen: Joi.date().iso().max('now').required(),
+  username: Joi.string().min(4).max(32).pattern(/^\S+$/),
+  email: Joi.string().min(4).max(254).email().pattern(/^\S+$/),
+  password: Joi.string().min(8).max(64).pattern(/^\S+$/).required(),
 }).xor('username', 'email');
 
 export const deleteAccountSchema = Joi.object({
-  username: Joi.string().min(4).max(32),
-  email: Joi.string().email(),
-  password: Joi.string().required(),
+  username: Joi.string().min(4).max(32).pattern(/^\S+$/),
+  email: Joi.string().email().pattern(/^\S+$/),
+  password: Joi.string().pattern(/^\S+$/).required().label('password'),
 }).xor('username', 'email');
