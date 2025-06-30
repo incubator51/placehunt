@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import {resolve, dirname} from 'path';
 import {fileURLToPath} from 'url';
+import cors from 'cors';
 import accountRoutes from './routes/accounts.js';
 import {sendResponse} from './utils/utils.js';
 
@@ -11,7 +12,13 @@ dotenv.config({
 });
 
 app.use(express.json());
-
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
     return sendResponse(res, 400, 'error', 'invalid JSON payload');
@@ -19,7 +26,6 @@ app.use((err, req, res, next) => {
   next(err);
   return sendResponse(res, 500, 'error', 'internal server error');
 });
-
 app.use('/accounts', accountRoutes);
 
 export default app;
