@@ -1,6 +1,6 @@
 import {pool} from '../db/setup.js';
 import {generatePasswordHash, checkPasswordHash} from '../db/crypto.js';
-import {signupAccountSchema, loginAccountSchema, deleteAccountSchema} from '../schemas/accounts.js';
+import {signupAccountSchema, signinAccountSchema, deleteAccountSchema} from '../schemas/accounts.js';
 import {sendResponse} from '../utils/utils.js';
 
 const rootPassword = process.env.DB_PASSWORD;
@@ -57,8 +57,8 @@ export const signupAccount = async (req, res) => {
   }
 };
 
-export const loginAccount = async (req, res) => {
-  const {error, value: account} = loginAccountSchema.validate(req.body);
+export const signinAccount = async (req, res) => {
+  const {error, value: account} = signinAccountSchema.validate(req.body);
   if (error) return sendResponse(res, 400, false, error.details[0].message);
 
   try {
@@ -71,7 +71,7 @@ export const loginAccount = async (req, res) => {
     if (!isValidPassword) return sendResponse(res, 401, false, 'invalid credentials');
 
     await pool.query(`UPDATE accounts SET last_seen=NOW() WHERE id=$1`, [user.id]);
-    return sendResponse(res, 200, true, 'login was successful');
+    return sendResponse(res, 200, true, 'signin was successful');
   } catch (err) {
     console.error('Login failed:', err);
     return sendResponse(res, 500, false, 'database error');

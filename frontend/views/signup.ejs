@@ -1,272 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <title>Sign Up - Place Hunt</title>
-</head>
-<body class="bg-gray-100 font-sans">
+  </head>
+  <body class="bg-gray-100 font-sans">
     <nav class="bg-white shadow-md fixed w-full top-0 z-50">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="logo">
-                    <a href="/" class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" width="150">
-                            <path d="M20 35h20v-15l-10-10-10 10z" fill="#FF385C"/>
-                            <text x="50" y="28" font-family="sans-serif" font-size="24" font-weight="bold" fill="#FF385C">Place Hunt</text>
-                            <circle cx="30" cy="25" r="2" fill="white"/>
-                            <path d="M30 25l-3 5" stroke="white" stroke-width="1.5"/>
-                        </svg>
-                    </a>
-                </div>
-                <div class="hidden md:flex space-x-4">
-                    <a href="/" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">Home</a>
-                    <a href="/about" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">About</a>
-                    <a href="/support" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">Support</a>
-                    <a href="/login" class="text-[#FF385C] font-medium hover:text-[#FF385C] transition duration-300">Sign In</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="menu-toggle" class="text-gray-700 focus:outline-none">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-            <div id="mobile-menu" class="hidden md:hidden bg-white">
-                <div class="flex flex-col space-y-2 py-4 px-4">
-                    <a href="/" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">Home</a>
-                    <a href="/about" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">About</a>
-                    <a href="/support" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">Support</a>
-                    <a href="/login" class="text-[#FF385C] font-medium hover:text-[#FF385C] transition duration-300">Sign In</a>
-                </div>
-            </div>
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="logo">
+            <a href="/" class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" width="150">
+                <path d="M20 35h20v-15l-10-10-10 10z" fill="#FF385C" />
+                <text x="50" y="28" font-family="sans-serif" font-size="24" font-weight="bold" fill="#FF385C">Place Hunt</text>
+                <circle cx="30" cy="25" r="2" fill="white" />
+                <path d="M30 25l-3 5" stroke="white" stroke-width="1.5" />
+              </svg>
+            </a>
+          </div>
+          <div class="hidden md:flex space-x-4">
+            <a href="/" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">Home</a>
+            <a href="/about" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">About</a>
+            <a href="/support" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">Support</a>
+            <a href="/signin" class="text-[#FF385C] font-medium hover:text-[#FF385C] transition duration-300">Sign In</a>
+          </div>
+          <div class="md:hidden">
+            <button id="menu-toggle" class="text-gray-700 focus:outline-none">
+              <i class="fas fa-bars text-2xl"></i>
+            </button>
+          </div>
         </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+          <div class="flex flex-col space-y-2 py-4 px-4">
+            <a href="/" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">Home</a>
+            <a href="/about" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">About</a>
+            <a href="/support" class="text-gray-700 font-medium text-base hover:text-[#FF385C] transition duration-300">Support</a>
+            <a href="/signin" class="text-[#FF385C] font-medium hover:text-[#FF385C] transition duration-300">Sign In</a>
+          </div>
+        </div>
+      </div>
     </nav>
 
     <div class="min-h-screen pt-20 flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-gray-100">
-        <form class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-full max-w-md" id="signupForm">
-            <div class="text-center mb-6">
-                <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Create Account</h1>
-                <p class="text-gray-600">Start your property search journey today</p>
-            </div>
+      <form class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-full max-w-md" id="signupForm">
+        <div class="text-center mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Create Account</h1>
+          <p class="text-gray-600">Start your property search journey today</p>
+        </div>
 
-            <div class="my-6 text-center relative">
-                <p class="text-gray-600 relative z-10 bg-white px-4 inline-block">Sign up with</p>
-                <div class="absolute top-1/2 left-0 w-full h-px bg-gray-300"></div>
-            </div>
+        <div class="my-6 text-center relative">
+          <p class="text-gray-600 relative z-10 bg-white px-4 inline-block">Sign up with</p>
+          <div class="absolute top-1/2 left-0 w-full h-px bg-gray-300"></div>
+        </div>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                <button type="button" class="flex items-center justify-center gap-2 p-3 border border-gray-300 rounded-full bg-white hover:bg-gray-100 transition duration-300 w-full">
-                    <i class="fab fa-google"></i>
-                    Google
-                </button>
-                <button type="button" class="flex items-center justify-center gap-2 p-3 border border-gray-300 rounded-full bg-white hover:bg-gray-100 transition duration-300 w-full">
-                    <i class="fab fa-facebook-f"></i>
-                    Facebook
-                </button>
-            </div>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+          <button type="button" class="flex items-center justify-center gap-2 p-3 border border-gray-300 rounded-full bg-white hover:bg-gray-100 transition duration-300 w-full">
+            <i class="fab fa-google"></i>
+            Google
+          </button>
+          <button type="button" class="flex items-center justify-center gap-2 p-3 border border-gray-300 rounded-full bg-white hover:bg-gray-100 transition duration-300 w-full">
+            <i class="fab fa-facebook-f"></i>
+            Facebook
+          </button>
+        </div>
 
-            <div class="mb-4 form-group">
-                <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
-                <input type="text" id="username" name="username" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required>
-                <div class="error-message text-red-500 text-sm mt-1 hidden">Username must be at least 3 characters</div>
-            </div>
+        <div class="mb-4 form-group">
+          <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+          <input type="text" id="username" name="username" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required />
+          <div class="error-message text-red-500 text-sm mt-1 hidden">Username must be at least 3 characters</div>
+        </div>
 
-            <div class="mb-4 form-group">
-                <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
-                <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required>
-                <div class="error-message text-red-500 text-sm mt-1 hidden">Please enter a valid email address</div>
-            </div>
+        <div class="mb-4 form-group">
+          <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
+          <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required />
+          <div class="error-message text-red-500 text-sm mt-1 hidden">Please enter a valid email address</div>
+        </div>
 
-            <div class="mb-4 form-group">
-                <label for="phoneNumber" class="block text-gray-700 font-medium mb-2">Phone Number</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required>
-                <div class="error-message text-red-500 text-sm mt-1 hidden">Please enter a valid phone number</div>
-            </div>
-            
-            <div class="mb-4 form-group">
-                <label for="dob" class="block text-gray-700 font-medium mb-2">Date of Birth</label>
-                <input type="date" id="dob" name="dob" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required>
-                <div class="error-message text-red-500 text-sm mt-1 hidden">Please select a valid date of birth</div>
-            </div>
-              
-            <div class="mb-4 form-group">
-                <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
-                <input type="password" id="password" name="password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required>
-                <div class="error-message text-red-500 text-sm mt-1 hidden">Password must be at least 8 characters</div>
-            </div>
+        <div class="mb-4 form-group">
+          <label for="phoneNumber" class="block text-gray-700 font-medium mb-2">Phone Number</label>
+          <input type="tel" id="phoneNumber" name="phoneNumber" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required />
+          <div class="error-message text-red-500 text-sm mt-1 hidden">Please enter a valid phone number</div>
+        </div>
 
-            <div class="mb-4 form-group">
-                <label for="confirmPassword" class="block text-gray-700 font-medium mb-2">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required>
-                <div class="error-message text-red-500 text-sm mt-1 hidden">Passwords do not match</div>
-            </div>
+        <div class="mb-4 form-group">
+          <label for="dob" class="block text-gray-700 font-medium mb-2">Date of Birth</label>
+          <input type="date" id="dob" name="dob" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required />
+          <div class="error-message text-red-500 text-sm mt-1 hidden">Please select a valid date of birth</div>
+        </div>
 
-            <div class="mb-6 checkbox-group">
-                <input type="checkbox" id="terms" name="terms" class="mt-1">
-                <label for="terms" class="text-gray-600 text-sm ml-2">
-                    I agree to the <a href="#" class="text-[#FF385C] hover:underline">Terms of Service</a> and <a href="#" class="text-[#FF385C] hover:underline">Privacy Policy</a>
-                </label>
-                <div class="error-message text-red-500 text-sm mt-1 hidden">You must agree to the terms to continue</div>
-            </div>
+        <div class="mb-4 form-group">
+          <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+          <input type="password" id="password" name="password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300" required />
+          <div class="error-message text-red-500 text-sm mt-1 hidden">Password must be at least 8 characters</div>
+        </div>
 
-            <!--button type="submit" class="w-full bg-[#FF385C] text-white p-3 rounded-full font-medium">Create Account</button-->
-            <div class="mb-6">
-                <!-- Loader (initially hidden) -->
-                <div id="signupLoader" class="hidden flex justify-center items-center">
-                  <div class="relative">
-                    <div class="w-6 h-6 border-2 border-t-[#FF385C] border-[#ff385c33] rounded-full animate-spin"></div>
-                    <svg class="absolute top-0 left-0 w-6 h-6" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M30 70h40v-30l-20-20-20 20z" fill="#FF385C"/>
-                      <circle cx="50" cy="50" r="4" fill="white"/>
-                      <path d="M50 50l-5 8" stroke="white" stroke-width="2"/>
-                    </svg>
-                  </div>
-                </div>
-              
-                <!-- Original Signup Button -->
-                <button id="signupBtn" type="submit" class="w-full bg-[#FF385C] text-white p-3 rounded-full font-medium">
-                  Create Account
-                </button>
-            </div>              
+        <div class="mb-4 form-group">
+          <label for="confirmPassword" class="block text-gray-700 font-medium mb-2">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FF385C] transition duration-300"
+            required
+          />
+          <div class="error-message text-red-500 text-sm mt-1 hidden">Passwords do not match</div>
+        </div>
 
-            <div class="text-center mt-6 text-gray-600">
-                Already have an account? <a href="/login" class="text-[#FF385C] hover:underline">Sign in</a>
+        <div class="mb-6 checkbox-group">
+          <input type="checkbox" id="terms" name="terms" class="mt-1" />
+          <label for="terms" class="text-gray-600 text-sm ml-2">
+            I agree to the <a href="#" class="text-[#FF385C] hover:underline">Terms of Service</a> and <a href="#" class="text-[#FF385C] hover:underline">Privacy Policy</a>
+          </label>
+          <div class="error-message text-red-500 text-sm mt-1 hidden">You must agree to the terms to continue</div>
+        </div>
+
+        <!--button type="submit" class="w-full bg-[#FF385C] text-white p-3 rounded-full font-medium">Create Account</button-->
+        <div class="mb-6">
+          <!-- Loader (initially hidden) -->
+          <div id="signupLoader" class="hidden flex justify-center items-center">
+            <div class="relative">
+              <div class="w-6 h-6 border-2 border-t-[#FF385C] border-[#ff385c33] rounded-full animate-spin"></div>
+              <svg class="absolute top-0 left-0 w-6 h-6" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M30 70h40v-30l-20-20-20 20z" fill="#FF385C" />
+                <circle cx="50" cy="50" r="4" fill="white" />
+                <path d="M50 50l-5 8" stroke="white" stroke-width="2" />
+              </svg>
             </div>
-        </form>
+          </div>
+
+          <!-- Original Signup Button -->
+          <button id="signupBtn" type="submit" class="w-full bg-[#FF385C] text-white p-3 rounded-full font-medium">Create Account</button>
+        </div>
+
+        <div class="text-center mt-6 text-gray-600">Already have an account? <a href="/signin" class="text-[#FF385C] hover:underline">Sign in</a></div>
+      </form>
     </div>
 
     <script>
-        // Toggle mobile menu
-        document.getElementById('menu-toggle').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
+      // Toggle mobile menu
+      document.getElementById('menu-toggle').addEventListener('click', function () {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // Form validation
+      document.getElementById('signupForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        // Reset previous errors
+        document.querySelectorAll('.form-group, .checkbox-group').forEach((group) => {
+          group.classList.remove('has-error');
+          group.querySelector('.error-message').classList.add('hidden');
         });
 
-        // Form validation
-        document.getElementById('signupForm').addEventListener('submit',async function(e) {
-            e.preventDefault();
-            
-            // Reset previous errors
-            document.querySelectorAll('.form-group, .checkbox-group').forEach(group => {
-                group.classList.remove('has-error');
-                group.querySelector('.error-message').classList.add('hidden');
-            });
-            
-            let hasError = false;
-            const errors = {};
+        let hasError = false;
+        const errors = {};
 
-            // Validate username
-            const username = document.getElementById('username').value.trim();
-            if (username.length < 3) {
-                errors.username = true;
-                hasError = true;
-                document.getElementById('username').parentElement.querySelector('.error-message').classList.remove('hidden');
+        // Validate username
+        const username = document.getElementById('username').value.trim();
+        if (username.length < 3) {
+          errors.username = true;
+          hasError = true;
+          document.getElementById('username').parentElement.querySelector('.error-message').classList.remove('hidden');
+        }
+
+        // Validate email
+        const email = document.getElementById('email').value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          errors.email = true;
+          hasError = true;
+          document.getElementById('email').parentElement.querySelector('.error-message').classList.remove('hidden');
+        }
+
+        // Validate phone number
+        const phoneNumber = document.getElementById('phoneNumber').value.trim();
+        const phoneRegex = /^\+?[\d\s-]{10,}$/;
+        if (!phoneRegex.test(phoneNumber)) {
+          errors.phoneNumber = true;
+          hasError = true;
+          document.getElementById('phoneNumber').parentElement.querySelector('.error-message').classList.remove('hidden');
+        }
+
+        // Validate password
+        const password = document.getElementById('password').value;
+        if (password.length < 8) {
+          errors.password = true;
+          hasError = true;
+          document.getElementById('password').parentElement.querySelector('.error-message').classList.remove('hidden');
+        }
+
+        // Validate password confirmation
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        if (password !== confirmPassword) {
+          errors.confirmPassword = true;
+          hasError = true;
+          document.getElementById('confirmPassword').parentElement.querySelector('.error-message').classList.remove('hidden');
+        }
+
+        // Validate terms acceptance
+        const terms = document.getElementById('terms').checked;
+        if (!terms) {
+          errors.terms = true;
+          hasError = true;
+          document.getElementById('terms').parentElement.querySelector('.error-message').classList.remove('hidden');
+        }
+
+        // Show errors if any
+        if (hasError) {
+          for (const field in errors) {
+            if (errors[field]) {
+              document.getElementById(field).parentElement.classList.add('has-error');
             }
+          }
+          return;
+        }
+        const dob = document.getElementById('dob').value;
+        const signupBtn = document.getElementById('signupBtn');
+        const signupLoader = document.getElementById('signupLoader');
+        signupBtn.classList.add('hidden');
+        signupLoader.classList.remove('hidden');
+        // If validation passes, show success message
+        //document.querySelector('.success-message').classList.remove('hidden');
+        const data = {
+          username: username,
+          email: email,
+          phoneNumber: phoneNumber,
+          password: password,
+          dob: dob,
+        };
+        try {
+          const response = await fetch('http://localhost:8000/accounts/signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
 
-            // Validate email
-            const email = document.getElementById('email').value.trim();
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                errors.email = true;
-                hasError = true;
-                document.getElementById('email').parentElement.querySelector('.error-message').classList.remove('hidden');
-            }
+          const result = await response.json();
 
-            // Validate phone number
-            const phoneNumber = document.getElementById('phoneNumber').value.trim();
-            const phoneRegex = /^\+?[\d\s-]{10,}$/;
-            if (!phoneRegex.test(phoneNumber)) {
-                errors.phoneNumber = true;
-                hasError = true;
-                document.getElementById('phoneNumber').parentElement.querySelector('.error-message').classList.remove('hidden');
-            }
-
-            // Validate password
-            const password = document.getElementById('password').value;
-            if (password.length < 8) {
-                errors.password = true;
-                hasError = true;
-                document.getElementById('password').parentElement.querySelector('.error-message').classList.remove('hidden');
-            }
-
-            // Validate password confirmation
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            if (password !== confirmPassword) {
-                errors.confirmPassword = true;
-                hasError = true;
-                document.getElementById('confirmPassword').parentElement.querySelector('.error-message').classList.remove('hidden');
-            }
-
-            // Validate terms acceptance
-            const terms = document.getElementById('terms').checked;
-            if (!terms) {
-                errors.terms = true;
-                hasError = true;
-                document.getElementById('terms').parentElement.querySelector('.error-message').classList.remove('hidden');
-            }
-
-            // Show errors if any
-            if (hasError) {
-                for (const field in errors) {
-                    if (errors[field]) {
-                        document.getElementById(field).parentElement.classList.add('has-error');
-                    }
-                }
-                return;
-            }
-            const dob = document.getElementById('dob').value;
-            const signupBtn = document.getElementById('signupBtn');
-            const signupLoader = document.getElementById('signupLoader');
-            signupBtn.classList.add('hidden');
-            signupLoader.classList.remove('hidden');
-            // If validation passes, show success message
-            //document.querySelector('.success-message').classList.remove('hidden');
-            const data = {
-                username: username,
-                email: email,
-                phoneNumber: phoneNumber,
-                password: password,
-                dob: dob,
-            };
-            try {
-                const response = await fetch('http://localhost:5000/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                // Show success flash message (you can redirect or update UI)
-                    alert(result.message || 'Signup successful');
-                    window.location.href = '/login'; // or wherever you want
-                } else {
-                // Show error message
-                    alert(result.message || 'Signup failed');
-                }
-
-            } catch (error) {
-                console.error('Error during signup:', error);
-                alert('Something went wrong. Try again later.');
-            } finally {
-                signupBtn.classList.remove('hidden');
-                signupLoader.classList.add('hidden');
-            }
-            // Here you would typically send the data to your server
-            console.log('Form submitted successfully', {
-                username,
-                email,
-                phoneNumber,
-                password,
-                dob,
-                terms: document.getElementById('terms').checked
-            });
+          if (response.ok) {
+            // Show success flash message (you can redirect or update UI)
+            alert(result.message || 'Signup successful');
+            window.location.href = '/signin'; // or wherever you want
+          } else {
+            // Show error message
+            alert(result.message || 'Signup failed');
+          }
+        } catch (error) {
+          console.error('Error during signup:', error);
+          alert('Something went wrong. Try again later.');
+        } finally {
+          signupBtn.classList.remove('hidden');
+          signupLoader.classList.add('hidden');
+        }
+        // Here you would typically send the data to your server
+        console.log('Form submitted successfully', {
+          username,
+          email,
+          phoneNumber,
+          password,
+          dob,
+          terms: document.getElementById('terms').checked,
         });
+      });
     </script>
-</body>
+  </body>
 </html>
