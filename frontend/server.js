@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const port = 5000;
 
 // Set EJS as the template engine
 app.set('view engine', 'ejs');
@@ -13,12 +14,12 @@ app.use(express.static('public'));
 
 // Signup page route
 app.get('/signup', (req, res) => {
-  res.render('signup');  // renders /views/signup.ejs
+  res.render('signup'); // renders /views/signup.ejs
 });
 app.get('/signin', (req, res) => {
-  res.render('signin');  // renders /views/signin.ejs
+  res.render('signin'); // renders /views/signin.ejs
 });
 // Start the server
-app.listen(3000, () => {
-  console.log('✅ Frontend server running at http://localhost:3000/signup');
+app.listen(port, () => {
+  console.log(`Frontend server running at http://localhost:${port}`);
 });
