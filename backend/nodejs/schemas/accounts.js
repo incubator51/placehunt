@@ -4,6 +4,7 @@ export const getAccountsSchema = Joi.object({
   password: Joi.string().min(8).max(64).pattern(/^\S+$/).required(),
 });
 export const signupAccountSchema = Joi.object({
+  role: Joi.string().valid('user', 'agent', 'admin').required(),
   username: Joi.string().min(4).max(32).pattern(/^\S+$/).required(),
   gender: Joi.string().valid('male', 'female', 'non-binary').required(),
   email: Joi.string().min(4).max(254).email().pattern(/^\S+$/).required(),
@@ -27,5 +28,5 @@ export const signinAccountSchema = Joi.object({
 export const deleteAccountSchema = Joi.object({
   username: Joi.string().min(4).max(32).pattern(/^\S+$/),
   email: Joi.string().email().pattern(/^\S+$/),
-  password: Joi.string().pattern(/^\S+$/).required().label('password'),
+  password: Joi.string().pattern(/^\S+$/).required(),
 }).xor('username', 'email');
