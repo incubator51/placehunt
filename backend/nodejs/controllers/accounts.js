@@ -1,6 +1,6 @@
 import {pool} from '../db/setup.js';
 import {generatePasswordHash, checkPasswordHash} from '../db/crypto.js';
-import {signupAccountSchema, signinAccountSchema, deleteAccountSchema} from '../schemas/accounts.js';
+import {getAccountsSchema, signupAccountSchema, signinAccountSchema, deleteAccountSchema} from '../schemas/accounts.js';
 import {sendResponse} from '../utils/utils.js';
 
 const rootPassword = process.env.DB_PASSWORD;
@@ -10,6 +10,7 @@ export const createAccounts = async () => {
   id SERIAL PRIMARY KEY,
   username VARCHAR(32) UNIQUE NOT NULL,
   gender VARCHAR(16) NOT NULL CHECK (gender IN ('male','female','non-binary')),
+  role VARCHAR(32) NOT NULL CHECK (role IN ('user','agent','admin')),
   email VARCHAR(254) UNIQUE NOT NULL,
   phone VARCHAR(20) UNIQUE NOT NULL,
   birth_date DATE NOT NULL,
@@ -21,7 +22,14 @@ export const createAccounts = async () => {
 
 export const getAccounts = async (req, res) => {
   try {
-    const result = await pool.query(`SELECT * FROM accounts`);
+    const {error, value: account} = getAccountsSchema.validate(req.body);
+
+    if (error) return sendResponse(res, 400, false, error.details[0].message);
+    if (account.password !== rootPassword) {
+      return sendResponse(res, 401, false, 'invalid credentials');
+    }
+
+    const result = await pool.query(`SELECT id,username,gender,role,email,phone,birth_date,created,last_seen FROM accounts`);
     return sendResponse(res, 200, true, 'get accounts request successful', result.rows);
   } catch (err) {
     console.error('Get accounts failed:', err);
@@ -33,7 +41,7 @@ export const signupAccount = async (req, res) => {
   const {error, value: account} = signupAccountSchema.validate(req.body);
   if (error) return sendResponse(res, 400, false, error.details[0].message);
 
-  const {username, gender, phone, email, birth_date, password} = account;
+  const {username, gender, role, phone, email, birth_date, password} = account;
   try {
     const checks = await pool.query(`SELECT username,phone,email FROM accounts WHERE username=$1 OR phone=$2 OR email=$3`, [username, phone, email]);
 
@@ -42,7 +50,8 @@ export const signupAccount = async (req, res) => {
     if (duplicates.some((row) => row.email === email)) return sendResponse(res, 409, false, 'email is already taken');
     if (duplicates.some((row) => row.phone === phone)) return sendResponse(res, 409, false, 'phone is already taken');
 
-    await pool.query(`INSERT INTO accounts (username, gender, email, phone, birth_date, password) VALUES ($1, $2, $3, $4, $5, $6)`, [
+    await pool.query(`INSERT INTO accounts (role,username,gender,email,phone,birth_date,password) VALUES ($1,$2,$3,$4,$5,$6,$7)`, [
+      role,
       username,
       gender,
       email,
