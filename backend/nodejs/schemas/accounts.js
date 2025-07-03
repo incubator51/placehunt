@@ -1,4 +1,5 @@
-import * as rules from './utils/validators';
+import Joi from './utils/joi.js';
+import * as rules from './utils/validators.js';
 
 export const getAccountsSchema = Joi.object({
   password: rules.password,

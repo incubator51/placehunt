@@ -1,3 +1,4 @@
+import Joi from './utils/joi.js';
 import * as rules from './utils/validators';
 
 export const postPropertySchema = Joi.object({

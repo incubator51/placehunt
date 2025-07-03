@@ -1,4 +1,4 @@
-import Joi from 'joi.js';
+import Joi from './joi.js';
 
 // accounts
 export const role = Joi.string().valid('user', 'agent', 'admin').required();

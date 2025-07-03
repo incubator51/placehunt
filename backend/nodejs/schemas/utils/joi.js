@@ -1,7 +1,7 @@
 import JoiBase from 'joi';
 import {parsePhoneNumberFromString} from 'libphonenumber-js';
 
-export const Joi = JoiBase.extend((joi) => ({
+const Joi = JoiBase.extend((joi) => ({
   type: 'phone',
   base: joi.string(),
   messages: {'phone.invalid': '{{#label}} must be a valid phone number'},
@@ -11,3 +11,5 @@ export const Joi = JoiBase.extend((joi) => ({
     return {value: phoneNumber.number};
   },
 }));
+
+export default Joi
